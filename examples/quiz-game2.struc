@@ -1,0 +1,54 @@
+VAR myString
+SET myString = "Welcome to the Structura game!\n"
+Print the string GET myString to the console.
+
+VAR name
+SET name = ""
+Print "What is your name?"
+GET name from user input
+
+VAR age
+SET age = 0
+Print "How old are you?"
+GET age from user input
+
+VAR score
+SET score = 0
+Print "Let's play a game! Answer the following questions correctly to increase your score.\n"
+
+VAR question1
+SET question1 = "What is the capital of France?"
+Print GET question1
+GET answer1 from user input
+IF answer1 == "Paris":
+    Print "Correct!"
+    SET score = score + 1
+ELSE:
+    Print "Incorrect."
+
+VAR question2
+SET question2 = "What is the largest planet in our solar system?"
+Print GET question2
+GET answer2 from user input
+IF answer2 == "Jupiter":
+    Print "Correct!"
+    SET score = score + 1
+ELSE:
+    Print "Incorrect."
+
+VAR question3
+SET question3 = "What is the highest mountain in the world?"
+Print GET question3
+GET answer3 from user input
+IF answer3 == "Mount Everest":
+    Print "Correct!"
+    SET score = score + 1
+ELSE:
+    Print "Incorrect."
+
+VAR result
+SET result = "Congratulations, " + GET name + "! You scored " + GET score + " out of 3."
+Print GET result
+
+OUTPUT: String
+!END!

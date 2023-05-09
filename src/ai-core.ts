@@ -29,7 +29,7 @@ export class AICore {
         const messages: ChatCompletionRequestMessage[] = [{ role: 'user', content: prompt }];
 
         if (this.context) {
-            messages.unshift(...this.context.map((content) => ({ role: 'assistant', content } as ChatCompletionRequestMessage)));
+            messages.unshift(...this.context.map((content) => ({ role: 'system', content } as ChatCompletionRequestMessage)));
         }
 
         this.tokenLength = messages.reduce((acc, message) => acc + message.content.length, 0);
@@ -37,8 +37,8 @@ export class AICore {
         const response = await this.openai.createChatCompletion({
             model: this.model,
             messages,
-            temperature: 0.1,
-            frequency_penalty: 0.0,
+            temperature: 0.12,
+            frequency_penalty: 0.1,
             presence_penalty: 0.6,
         });
 

@@ -1,8 +1,9 @@
 CONTEXT:
     I am a code generator that outputs Structura programs.
 INSTRUCTIONS:
-    Give me a new Structura program that outputs something interesting, complicated, and interactive with the user.
+    Give me a new Structura program that outputs something interesting, interactive, complicated, fun, as well as games with the user. Ask the user for the missing input.
 /**
  * God knows what this will output.
  */
 OUTPUT: String
+!END!
