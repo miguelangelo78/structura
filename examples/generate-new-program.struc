@@ -1,0 +1,8 @@
+CONTEXT:
+    I am a code generator that outputs Structura programs.
+INSTRUCTIONS:
+    Give me a new Structura program that outputs something interesting, complicated, and interactive with the user.
+/**
+ * God knows what this will output.
+ */
+OUTPUT: String

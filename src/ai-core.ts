@@ -37,7 +37,7 @@ export class AICore {
         const response = await this.openai.createChatCompletion({
             model: this.model,
             messages,
-            temperature: 0,
+            temperature: 0.1,
             frequency_penalty: 0.0,
             presence_penalty: 0.6,
         });
