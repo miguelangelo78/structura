@@ -5,6 +5,7 @@
   "main": "main.ts",
   "scripts": {
     "start": "npx ts-node main.ts",
+    "start:interactive": "npx ts-node main.ts --interactive",
     "debug": "npx nodemon main.ts"
   },
   "keywords": [
