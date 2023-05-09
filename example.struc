@@ -1,0 +1,10 @@
+CONTEXT:
+    We are executing a "hello world" program.
+INSTRUCTIONS:
+    Print the string "I am alive!" five times in all caps and put a space between each letter.
+OUTPUT: String
+
+/**
+ * This program should output:
+ * I A M  A L I V E !   I A M  A L I V E !   I A M  A L I V E !   I A M  A L I V E !   I A M  A L I V E !
+ */

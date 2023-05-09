@@ -1,24 +1,29 @@
 import prompt from 'prompt-sync';
 import { config } from 'dotenv';
 import { Structura } from './src/structura/structura-core';
+import { readFileSync } from 'fs';
 
 config();
 
 (async () => {
+    const {
+        2: filename,
+        3: interactiveFlag
+    } = process.argv;
+
+    if (filename === '-i' || filename === '--interactive') {
+        // Will fix this command line parsing later
+        await interactiveMode();
+        return;
+    }
+
+    if (!((filename || '').trim())) {
+        throw new Error('No filename provided!');
+    }
+
+    const program = readFileSync(filename, 'utf-8');
+
     const structura = new Structura();
-
-    const program = `
-        CONTEXT:
-            We are executing a "hello world" program.
-        INSTRUCTIONS:
-            Print the string "I am alive!" five times in all caps and put a space between each letter.
-        OUTPUT: String
-    `;
-
-    /**
-     * This program should output:
-     * I A M  A L I V E !   I A M  A L I V E !   I A M  A L I V E !   I A M  A L I V E !   I A M  A L I V E !
-     */
 
     if (process.env.VERBOSE === 'true') {
         console.log('> Program:', program);
@@ -28,15 +33,16 @@ config();
         console.log(await structura.execute(program));
     }
 
-    let input;
-
-    const interactiveFlag = process.argv[2];
-
     if (interactiveFlag === '--interactive' || interactiveFlag === '-i') {
-        while (input = prompt()('> You: ')) {
-            const response = await structura.talk(input);
-            console.log('> Token length:', structura.tokenLength);
-            console.log(`> AI: ${response}`);
+        await interactiveMode();
+    }
+
+    async function interactiveMode() {
+        let input;
+        let messageCounter = 0;
+        while (input = prompt()(`${messageCounter}> You: `)) {
+            const response = structura.talk(input);
+            console.log('> AI:', response);
         }
     }
 })();

@@ -33,6 +33,9 @@ The AI should respect the tokenizations, grammar/syntax and semantics of the lan
 
 Each keyword that is followed by ':' is considered a command.
 
+You must ignore any Structura code that is in between the characters '/*' and '*/'. This is a comment.
+Also ignore single line comments that start with '//'.
+
 Variables can be created using the keyword 'VAR'. Variables can be assigned using the keyword 'SET'. Variables can be referenced using the keyword 'GET'. Variables can be deleted using the keyword 'DEL'.
 
 Variables can hold anything. They can hold a string, a number, an object, a topic of conversation, a symbolic reference, or just about anything you can think of.

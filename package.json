@@ -4,9 +4,10 @@
   "description": "A new meta programming language for AI systems",
   "main": "main.ts",
   "scripts": {
-    "start": "npx ts-node main.ts",
-    "start:interactive": "npx ts-node main.ts --interactive",
-    "debug": "npx nodemon main.ts"
+    "start": "npx ts-node main.ts $npm_config_file",
+    "start:interactive": "npx ts-node main.ts $npm_config_file --interactive",
+    "debug": "npx nodemon main.ts $npm_config_file",
+    "debug:interactive": "npx nodemon main.ts $npm_config_file --interactive"
   },
   "keywords": [
     "openai",
@@ -19,6 +20,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "dotenv": "^16.0.3",
+    "jasmine": "^4.6.0",
     "openai": "^3.2.1",
     "prompt-sync": "^4.2.0",
     "ts-node": "^10.9.1"
