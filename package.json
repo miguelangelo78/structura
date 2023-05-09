@@ -7,7 +7,9 @@
     "start": "npx ts-node main.ts $npm_config_file",
     "start:interactive": "npx ts-node main.ts $npm_config_file --interactive",
     "debug": "npx nodemon main.ts $npm_config_file",
-    "debug:interactive": "npx nodemon main.ts $npm_config_file --interactive"
+    "debug:interactive": "npx nodemon main.ts $npm_config_file --interactive",
+    "generate": "npx ts-node test/generate-new-program.ts",
+    "example": "npx ts-node test/run_example.ts $1"
   },
   "keywords": [
     "openai",
