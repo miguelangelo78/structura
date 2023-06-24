@@ -5,7 +5,7 @@ import { readFileSync } from 'fs';
 
 config();
 
-(async () => {
+async function main() {
     const {
         2: filename,
         3: interactiveFlag
@@ -45,4 +45,6 @@ config();
             console.log('> AI:', response);
         }
     }
-})();
+}
+
+main().catch(console.error);
