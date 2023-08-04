@@ -1,1 +1,1 @@
-1 you will discuss a new system for triggering external typescript functions in structura via AI output's as the command to trigger the typescript function.
+1 you will discuss a new system for triggering external typescript functions in structura via AI's output as the command to trigger the typescript function.
