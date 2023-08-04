@@ -1,5 +1,7 @@
 import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai';
 
+const MAX_TOKEN_LENGTH = 8192;
+
 export class AICore {
     public tokenLength = 0;
 
@@ -34,6 +36,10 @@ export class AICore {
 
         this.tokenLength = messages.reduce((acc, message) => acc + message.content.length, 0);
 
+        if (this.tokenLength > MAX_TOKEN_LENGTH) {
+            console.info(`>>>>> Reached maximum token length! Max: ${MAX_TOKEN_LENGTH}, current: ${this.tokenLength} <<<<<`);
+        }
+
         const response = await this.openai.createChatCompletion({
             model: this.model,
             messages,
@@ -45,7 +51,8 @@ export class AICore {
         const result = response.data.choices[0].message?.content || '';
 
         if (assimilate) {
-            this.addContext(`Use your previous answer as context. Your previous response was:\n>${result}`);
+            this.addContext(`This is the previous user prompt: ${prompt}`);
+            this.addContext(`Use your previous response as context. Your previous response was:\n>${result}`);
         }
 
         return result;

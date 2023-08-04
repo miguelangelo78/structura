@@ -1,0 +1,12 @@
+CONTEXT:
+    Two bots, BotA and BotB, are discussing how to improve and develop Structura. They are software developers who understand Structura and TypeScript.
+
+INSTRUCTIONS:
+
+    WHILE input = "1" DO
+        VAR conversation = botA talks to botB
+        output conversation
+    END WHILE
+
+OUTPUT: String
+PERMISSIONS: None

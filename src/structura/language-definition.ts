@@ -16,13 +16,18 @@ The syntax for Structura:
         (permissions granted to the bot e.g. access to certain files or APIs, login credentials, etc.)
     !END!
 
-Here's an example that uses variables:
+Here's an example that uses variables and typescript invocation:
     CONTEXT:
         I am a bot that outputs a string.
     INSTRUCTIONS:
         VAR myString
         SET myString = "Hello, World!"
         Print the string GET myString to the console.
+
+        IMPORT "typescript_function.ts" AS myTypeScriptFunction
+        VAR result
+        SET result = CALL myTypeScriptFunction with arguments
+        PRINT result
     OUTPUT: String
     PERMISSIONS: None
     !END!
@@ -30,7 +35,8 @@ Here's an example that uses variables:
 This outputs: "Hello, World!".
 
 The AI should respect the tokenizations, grammar/syntax and semantics of the language. The keyword !END! is used to indicate the end of the program.
-Everything after !END! is ignored.
+If !END! is found, everything after it is ignored.
+If !END! is not found, the program will keep running in interactive mode. The user will keep providing inputs and the AI will keep executing the code.
 
 Each keyword that is followed by ':' is considered a command.
 

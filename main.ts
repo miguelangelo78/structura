@@ -46,7 +46,7 @@ async function main() {
 
         while (input = prompt()(`${messageCounter++}> You: `)) {
             const response = await structura.talk(input);
-            console.log('> AI:', response);
+            console.log(`> AI: ${response}\n`);
         }
     }
 }
