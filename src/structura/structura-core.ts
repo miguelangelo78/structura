@@ -6,11 +6,11 @@ export class Structura extends AICore {
         super(theStructuraLanguage);
     }
 
-    async execute(program: string): Promise<string> {
+    async execute(program: string, isInteractive = false): Promise<string> {
         const sanitised = this.sanitise(program);
         const wrappedMessage = `Please execute the following program and print only on the keyword !END!:\n${sanitised}\n!END!`;
 
-        return this.talk(wrappedMessage, true);
+        return this.talk(wrappedMessage, isInteractive);
     }
 
     private sanitise(program: string) {

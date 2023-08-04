@@ -1,7 +1,7 @@
 CONTEXT:
     I am a code generator that outputs Structura programs.
 INSTRUCTIONS:
-    Generate a new Structura program that outputs something interesting, interactive, complicated, fun and or useful.
+    Generate a new Structura program that does something interesting, interactive, complex, fun and or useful.
 
 OUTPUT: String
 !END!

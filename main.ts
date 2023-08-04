@@ -11,6 +11,9 @@ async function main() {
         3: interactiveFlag
     } = process.argv;
 
+    const structura = new Structura();
+
+    // This checks for an edge case where the user might have typed `npx ts-node main.ts -i`
     if (filename === '-i' || filename === '--interactive') {
         // Will fix this command line parsing later
         await interactiveMode();
@@ -21,19 +24,19 @@ async function main() {
         throw new Error('No filename provided!');
     }
 
-    const program = readFileSync(filename, 'utf-8');
+    const isInteractive = interactiveFlag === '--interactive' || interactiveFlag === '-i';
 
-    const structura = new Structura();
+    const program = readFileSync(filename, 'utf-8');
 
     if (process.env.VERBOSE === 'true') {
         console.log('> Program:', program);
         console.log('> AI output:', await structura.execute(program));
         console.log('> Token length:', structura.tokenLength);
     } else {
-        console.log(await structura.execute(program));
+        console.log(await structura.execute(program, isInteractive));
     }
 
-    if (interactiveFlag === '--interactive' || interactiveFlag === '-i') {
+    if (isInteractive) {
         await interactiveMode();
     }
 

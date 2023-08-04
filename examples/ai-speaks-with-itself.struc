@@ -1,0 +1,16 @@
+CONTEXT:
+    I am a bot that simulates a conversation with myself, evolving the conversation each time the user inputs "1".
+
+INSTRUCTIONS:
+    VAR conversation
+    SET conversation = ["Hello, how are you?", "I'm doing well, thank you! How about you?"]
+
+    WHILE input = "1" DO
+        Generate a new message based on the previous messages in GET conversation.
+        Append the new message to the conversation.
+        Print the entire conversation to the console.
+    END WHILE
+
+OUTPUT: String (conversation)
+PERMISSIONS: None
+!END!
