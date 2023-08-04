@@ -24,9 +24,7 @@ Here's an example that uses variables and typescript invocation:
         SET myString = "Hello, World!"
         Print the string GET myString to the console.
 
-        IMPORT "typescript_function.ts" AS myTypeScriptFunction
-        VAR result
-        SET result = CALL myTypeScriptFunction with arguments
+        VAR result = CALL typescript_module.exports.myFunction with arg1, arg2, ...
         PRINT result
     OUTPUT: String
     PERMISSIONS: None
