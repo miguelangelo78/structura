@@ -39,9 +39,10 @@ async function main() {
 
     async function interactiveMode() {
         let input;
-        let messageCounter = 0;
-        while (input = prompt()(`${messageCounter}> You: `)) {
-            const response = structura.talk(input);
+        let messageCounter = 1;
+
+        while (input = prompt()(`${messageCounter++}> You: `)) {
+            const response = await structura.talk(input);
             console.log('> AI:', response);
         }
     }

@@ -5,7 +5,7 @@ export class AICore {
 
     private openai: OpenAIApi;
     private context: string[] = [];
-    private model = 'gpt-3.5-turbo';
+    private model = 'gpt-4-0314';
 
     private setContext(context: string[]) {
         this.context = context;
@@ -26,7 +26,7 @@ export class AICore {
     }
 
     async talk(prompt: string, assimilate = true) {
-        const messages: ChatCompletionRequestMessage[] = [{ role: 'user', content: prompt }];
+        const messages: ChatCompletionRequestMessage[] = [{ role: 'system', content: prompt }];
 
         if (this.context) {
             messages.unshift(...this.context.map((content) => ({ role: 'system', content } as ChatCompletionRequestMessage)));

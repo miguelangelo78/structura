@@ -10,7 +10,7 @@ export class Structura extends AICore {
         const sanitised = this.sanitise(program);
         const wrappedMessage = `Please execute the following program and print only on the keyword !END!:\n${sanitised}\n!END!`;
 
-        return this.talk(wrappedMessage, false);
+        return this.talk(wrappedMessage, true);
     }
 
     private sanitise(program: string) {

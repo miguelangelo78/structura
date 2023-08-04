@@ -57,7 +57,7 @@ npm install
 To run a Structura program, you can use the following command:
 
 ```bash
-npm start structuraProgram.struc [-i | --interactive]
+npm start -- structuraProgram.struc [-i | --interactive]
 ```
 
 - `structuraProgram.struc` should be replaced with the path to your Structura program file.
@@ -69,7 +69,7 @@ In the `examples/` directory, you will find several example Structura programs t
 
 You can run them like this:
 ```bash
-npm start examples/helloworld.struc
+npm start -- examples/helloworld.struc
 ```
 
 ## Contributing
