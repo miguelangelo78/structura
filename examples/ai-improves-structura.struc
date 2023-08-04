@@ -2,6 +2,7 @@ CONTEXT:
     Two bots, BotA and BotB, are discussing how to improve and develop Structura. They are software developers who understand Structura and TypeScript.
 
 INSTRUCTIONS:
+    VAR input = "1"
 
     WHILE input = "1" DO
         VAR conversation = botA talks to botB
