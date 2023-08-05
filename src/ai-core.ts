@@ -3,6 +3,8 @@ import * as libs from '../libs';
 
 const MAX_TOKEN_LENGTH = 8192;
 
+const REGEX_COMMAND = /CALL (?:.|\n)*?\$\.(\w+)(?:.|\n)+?WITH(?:.|\n)+?(.+?)(?:\n|$)/gi;
+
 export class AICore {
     public tokenLength = 0;
 
@@ -29,17 +31,9 @@ export class AICore {
     }
 
     async talk(prompt: string, assimilate = true): Promise<string> {
-        const messages: ChatCompletionRequestMessage[] = [{ role: 'system', content: prompt }];
+        const messages = this.buildMessages(prompt);
 
-        if (this.context) {
-            messages.unshift(...this.context.map((content) => ({ role: 'system', content } as ChatCompletionRequestMessage)));
-        }
-
-        this.tokenLength = messages.reduce((acc, message) => acc + message.content.length, 0);
-
-        if (this.tokenLength > MAX_TOKEN_LENGTH) {
-            console.info(`>>>>> Reached maximum token length! Max: ${MAX_TOKEN_LENGTH}, current: ${this.tokenLength} <<<<<`);
-        }
+        this.updateTokenLength(messages);
 
         const response = await this.openai.createChatCompletion({
             model: this.model,
@@ -60,17 +54,38 @@ export class AICore {
 
         if (commandOutput) {
             // Re-run the AI with the command output in the prompt
-            prompt = `${prompt}\nRe-run the program (and don't mention it) but replace the previous CALL command with the following:${commandOutput}`;
-            return this.talk(prompt, false);
+            const updatedStructuraProgram = this.mutateStructuraProgram(prompt, commandOutput);
+
+            return this.talk(updatedStructuraProgram, false);
         }
 
         return result;
     }
 
+    private buildMessages(prompt: string): ChatCompletionRequestMessage[] {
+        const messages: ChatCompletionRequestMessage[] = [{ role: 'system', content: prompt }];
+
+        if (this.context) {
+            messages.unshift(...this.context.map((content) => ({ role: 'system', content } as ChatCompletionRequestMessage)));
+        }
+
+        return messages;
+    }
+
+    private updateTokenLength(messages: ChatCompletionRequestMessage[]) {
+        this.tokenLength = messages.reduce((acc, message) => acc + message.content.length, 0);
+
+        if (this.tokenLength > MAX_TOKEN_LENGTH) {
+            console.info(`>>>>> Reached maximum token length! Max: ${MAX_TOKEN_LENGTH}, current: ${this.tokenLength} <<<<<`);
+        }
+    }
+
     private checkAndExecuteCommand(aiOutput: string): string | undefined {
+        const sanitised = this.sanitiseAIOutputForExecution(aiOutput);
+
         // Check if the AI has outputted an external Structura command
         // Syntax: CALL $.myFunction WITH arg1, arg2, ...
-        const structuraCommand = [...aiOutput.trim().matchAll(/CALL(?:.|\n)+?\$\.(\w+)(?:.|\n)+?WITH(?:.|\n)+?(.+?)$/gi)];
+        const structuraCommand = [...sanitised.trim().matchAll(REGEX_COMMAND)];
 
         if (structuraCommand.length) {
             this.log('>>>>> Detected Structura command! <<<<<');
@@ -94,6 +109,33 @@ export class AICore {
                 return lib[command as any](...argsList);
             }
         }
+    }
+
+    private sanitiseAIOutputForExecution(aiOutput: string): string {
+        let sanitised = aiOutput;
+
+        // Check if the AI has echoed multiple CALL commands. If so, execute only the first one.
+        if ((sanitised.match(/CALL /gi)?.length ?? 0) > 1) {
+            if (!sanitised.includes('\n')) {
+                throw new Error('AI output contains multiple CALL commands but no newline!');
+            }
+
+            // Remove any non CALL commands
+            sanitised = sanitised.split('\n').filter((line) => line.includes('CALL '))[0] || '';
+        }
+
+        return sanitised;
+    }
+
+    private mutateStructuraProgram(prompt: string, commandOutput: string): string {
+        const callCommands = prompt.match(REGEX_COMMAND) ?? [];
+
+        // Replace the first CALL command with the given command output
+        if (callCommands.length > 0 && callCommands[0]) {
+            return prompt.replace(callCommands[0], commandOutput);
+        }
+
+        throw new Error('Could not mutate Structura program! A command output was produced but no CALL command was found in the prompt!');
     }
 
     private log(...args: any[]) {

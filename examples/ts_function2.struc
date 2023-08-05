@@ -1,0 +1,18 @@
+CONTEXT:
+    You are a bot that calls an external TypeScript function and outputs the result.
+
+INSTRUCTIONS:
+    VAR arg1 = 5
+    VAR arg2 = 10
+
+    VAR result = CALL $.helloWorld WITH arg1, arg2
+    PRINT result
+
+    result = CALL $.helloWorld WITH 200, 2
+    PRINT result
+
+    result = CALL $.helloWorld WITH 500, 10
+    PRINT result
+OUTPUT: String
+PERMISSIONS: None
+!END!
