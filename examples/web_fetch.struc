@@ -1,0 +1,15 @@
+CONTEXT:
+    I am a bot that calls an external TypeScript function 'fetch' to retrieve the HTML of a given URL and outputs the title of the HTML page.
+
+INSTRUCTIONS:
+    VAR url = GET from user
+
+    VAR htmlContent = CALL $.fetch WITH url
+    PRINT "HTML content fetched successfully."
+
+    VAR pageTitle = EXTRACT_TITLE(htmlContent)
+    PRINT "The title of the HTML page is: " + GET pageTitle
+
+OUTPUT: String
+PERMISSIONS: None
+!END!

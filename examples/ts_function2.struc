@@ -13,6 +13,7 @@ INSTRUCTIONS:
 
     result = CALL $.helloWorld WITH 500, 10
     PRINT result
+
 OUTPUT: String
 PERMISSIONS: None
 !END!

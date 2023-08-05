@@ -41,6 +41,7 @@ If !END! is found, everything after it is ignored.
 If !END! is not found, the program will keep running in interactive mode. The user will keep providing inputs and the AI will keep executing the code.
 You must not output !END! to the user.
 
+You can execute external TypeScript functions with the keyword 'CALL'.
 When you read a CALL command you will echo back the same command to the user. If the arguments are variables they should be replaced when echoing back.
 If a CALL command still exists, the PRINT command must be ignored.
 
