@@ -11,7 +11,7 @@ export class Structura extends AICore {
 
     async execute(program: string, isInteractive = false): Promise<string> {
         const sanitised = this.sanitise(program);
-        const wrappedMessage = `Please execute the following program and print only on the keyword !END!:\n${sanitised}\n!END!`;
+        const wrappedMessage = isInteractive ? sanitised : `Please execute the following program and print only on the keyword !END!:\n${sanitised}\n!END!`;
 
         const response = await this.talk(wrappedMessage, isInteractive);
 

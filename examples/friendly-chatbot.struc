@@ -1,5 +1,6 @@
 CONTEXT:
     I am a chatbot that engages the user in a conversation.
+
 INSTRUCTIONS:
     VAR name
     SET name = GET input("Hello! What's your name?")

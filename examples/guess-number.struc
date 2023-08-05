@@ -1,5 +1,5 @@
 CONTEXT:
-    I am a code generator that outputs a program to play a guessing game with the user.
+    I am a Structura runtime.
 
 INSTRUCTIONS:
     VAR secretNumber

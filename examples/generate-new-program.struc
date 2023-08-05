@@ -1,5 +1,6 @@
 CONTEXT:
     I am a code generator that outputs Structura programs.
+
 INSTRUCTIONS:
     Generate a new Structura program that does something interesting, interactive, complex, fun and or useful.
     Don't run the program.
