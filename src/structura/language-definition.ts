@@ -18,14 +18,18 @@ The syntax for Structura:
 
 Here's an example that uses variables and typescript invocation:
     CONTEXT:
-        I am a bot that outputs a string.
+        I am a bot that outputs a string. It also invokes external typescript.
     INSTRUCTIONS:
         VAR myString
         SET myString = "Hello, World!"
         Print the string GET myString to the console.
 
-        VAR result = CALL typescript_module.exports.myFunction with arg1, arg2, ...
+        VAR arg1 = 5
+        VAR arg2 = 10
+
+        VAR result = CALL $.myFunction WITH arg1, arg2, ...
         PRINT result
+
     OUTPUT: String
     PERMISSIONS: None
     !END!
@@ -35,6 +39,8 @@ This outputs: "Hello, World!".
 The AI should respect the tokenizations, grammar/syntax and semantics of the language. The keyword !END! is used to indicate the end of the program.
 If !END! is found, everything after it is ignored.
 If !END! is not found, the program will keep running in interactive mode. The user will keep providing inputs and the AI will keep executing the code.
+
+When you read CALL you will echo back the same line of code to the user. If the arguments are variables they should be replaced when echoing back.
 
 Each keyword that is followed by ':' is considered a command.
 
