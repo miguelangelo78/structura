@@ -47,8 +47,8 @@ export class AICore {
         const result = response.data.choices[0].message?.content || '';
 
         if (assimilate) {
-            this.addContext(`This is the previous user prompt: ${prompt}`);
-            this.addContext(`Use your previous response as context. Your previous response was:\n>${result}`);
+            this.addContext(`Previous user prompt: ${prompt}`);
+            this.addContext(result);
         }
 
         return result;
