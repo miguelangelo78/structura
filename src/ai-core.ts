@@ -17,6 +17,10 @@ export class AICore {
         this.context.push(context);
     }
 
+    private rewindContext(steps = 1) {
+        this.setContext(this.context.slice(0, -steps));
+    }
+
     public getContext(): string[] {
         return this.context;
     }
@@ -32,6 +36,8 @@ export class AICore {
     }
 
     async talk(prompt: string, assimilate = true): Promise<string> {
+        prompt = this.handleRewindCommand(prompt);
+
         const messages = this.buildMessages(prompt);
 
         this.updateTokenLength(messages);
@@ -52,6 +58,38 @@ export class AICore {
         }
 
         return result;
+    }
+
+    // Rewind command overrules everything else that precedes it.
+    // <<< is the command for rewinding the context by one step.
+    private handleRewindCommand(prompt: string): string {
+        prompt = prompt.trim();
+
+        // If there are more <<< after each other keep rewinding by one more step.
+        while (prompt.startsWith('<<<')) {
+            if (this.context.length <= 3) {
+                // If there are no more steps to rewind, just return the prompt as is.
+
+                if (this.context.length === 3) {
+                    // Remove the last element from the context and keep just the language specification and the initial prompt:
+                    this.context.pop();
+                }
+
+                while (prompt.startsWith('<<<')) {
+                    prompt = prompt.slice(3).trim();
+                }
+
+                return prompt;
+            }
+
+            // Remove the first 3 characters from prompt
+            prompt = prompt.slice(3).trim(); // Remove <<< from prompt
+
+            this.log('Rewinding context by one step...');
+            this.rewindContext(2); // Each step consists of two elements: the user prompt and the AI response.
+        }
+
+        return prompt;
     }
 
     private buildMessages(prompt: string): ChatCompletionRequestMessage[] {
