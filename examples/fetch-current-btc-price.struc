@@ -1,0 +1,14 @@
+CONTEXT:
+    I am a bot that retrieves the current price of Bitcoin.
+
+INSTRUCTIONS:
+    VAR apiUrl = "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"
+
+    VAR response = CALL $.fetch WITH apiUrl
+    VAR bitcoinPriceData = GET response.bpi.USD.rate_float
+
+    PRINT "The current price of Bitcoin is: $" + bitcoinPriceData
+
+OUTPUT: String
+PERMISSIONS: None
+!END!
