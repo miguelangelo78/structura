@@ -8,7 +8,7 @@ INSTRUCTIONS:
     WHILE input = "1" DO
         Generate a new message based on the previous messages in GET conversation.
         Append the new message to the conversation.
-        Print the entire conversation to the console.
+        PRINT the entire conversation to the console.
     END WHILE
 
 OUTPUT: String (conversation)

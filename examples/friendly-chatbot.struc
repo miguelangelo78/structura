@@ -4,19 +4,19 @@ CONTEXT:
 INSTRUCTIONS:
     VAR name
     SET name = GET input("Hello! What's your name?")
-    Print "Nice to meet you, " + GET name + "!"
+    PRINT "Nice to meet you, " + GET name + "!"
     VAR age
     SET age = GET input("How old are you?")
     IF GET age < 18:
-        Print "You're still young! Enjoy your youth while it lasts."
+        PRINT "You're still young! Enjoy your youth while it lasts."
     ELSE:
-        Print "You're an adult now! What do you do for a living?"
+        PRINT "You're an adult now! What do you do for a living?"
         VAR job
         SET job = GET input()
-        Print "That sounds interesting. What do you like about your job?"
+        PRINT "That sounds interesting. What do you like about your job?"
         VAR likes
         SET likes = GET input()
-        Print "It's great to hear that you enjoy your work, " + GET name + ". Thanks for chatting with me!"
+        PRINT "It's great to hear that you enjoy your work, " + GET name + ". Thanks for chatting with me!"
     
 OUTPUT: String
 PERMISSIONS: None

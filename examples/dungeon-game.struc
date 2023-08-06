@@ -7,27 +7,27 @@ INSTRUCTIONS:
 
     SET playerLocation = "START"
 
-    Print "Welcome to the Adventure! Type 'look' to view your surroundings, or 'quit' to exit."
+    PRINT "Welcome to the Adventure! Type 'look' to view your surroundings, or 'quit' to exit."
 
     WHILE GET userInput != "quit":
         Request user input, and store it in userInput.
         
         IF GET userInput == "look":
             IF GET playerLocation == "START":
-                Print "You find yourself at the entrance to a dark cave. There's a path leading east."
+                PRINT "You find yourself at the entrance to a dark cave. There's a path leading east."
             ELSEIF GET playerLocation == "CAVE":
-                Print "You're inside the cave. It's dimly lit by glowing crystals. A passage leads west back outside."
+                PRINT "You're inside the cave. It's dimly lit by glowing crystals. A passage leads west back outside."
         
         ELSEIF GET userInput == "move east" AND GET playerLocation == "START":
             SET playerLocation = "CAVE"
-            Print "You enter the cave."
+            PRINT "You enter the cave."
 
         ELSEIF GET userInput == "move west" AND GET playerLocation == "CAVE":
             SET playerLocation = "START"
-            Print "You exit the cave."
+            PRINT "You exit the cave."
         
         ELSE:
-            Print "Invalid command. Type 'look' to view your surroundings, or 'quit' to exit."
+            PRINT "Invalid command. Type 'look' to view your surroundings, or 'quit' to exit."
 
 OUTPUT: String
 PERMISSIONS: None

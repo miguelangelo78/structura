@@ -3,21 +3,21 @@ CONTEXT:
 INSTRUCTIONS:
     VAR score
     SET score = 0
-    Print "Welcome to the Quiz Game! Your current score is " GET score "."
-    Print "Question 1: What is the capital of France?"
+    PRINT "Welcome to the Quiz Game! Your current score is " GET score "."
+    PRINT "Question 1: What is the capital of France?"
     IF user_input == "Paris":
         SET score = score + 1
-        Print "Correct! Your score is now " GET score "."
+        PRINT "Correct! Your score is now " GET score "."
     ELSE:
-        Print "Incorrect. The correct answer is Paris. Your score is still " GET score "."
-    Print "Question 2: Who painted the Mona Lisa?"
+        PRINT "Incorrect. The correct answer is Paris. Your score is still " GET score "."
+    PRINT "Question 2: Who painted the Mona Lisa?"
     IF user_input == "Leonardo da Vinci":
         SET score = score + 1
-        Print "Correct! Your score is now " GET score "."
+        PRINT "Correct! Your score is now " GET score "."
     ELSE:
-        Print "Incorrect. The correct answer is Leonardo da Vinci. Your score is still " GET score "."
+        PRINT "Incorrect. The correct answer is Leonardo da Vinci. Your score is still " GET score "."
     // Add more questions here
-    Print "Thanks for playing! Your final score is " GET score "."
+    PRINT "Thanks for playing! Your final score is " GET score "."
 OUTPUT: String
 PERMISSIONS: None
 !END!

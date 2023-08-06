@@ -1,7 +1,7 @@
 CONTEXT:
     We are executing a "hello world" program.
 INSTRUCTIONS:
-    Print the string "I am alive!" five times in all caps and put a space between each letter.
+    PRINT the string "I am alive!" five times in all caps and put a space between each letter.
 OUTPUT: String
 
 /**

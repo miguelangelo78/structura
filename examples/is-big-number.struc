@@ -1,10 +1,10 @@
 VAR myString
 SET myString = "Welcome to the Structura program generator! Please enter your name: "
-Print GET myString
+PRINT GET myString
 VAR userName
 SET userName = Input()
 SET myString = "Hello, " + GET userName + "! Please enter a number: "
-Print GET myString
+PRINT GET myString
 VAR userNumber
 SET userNumber = Input()
 IF userNumber > 10 THEN
@@ -12,5 +12,5 @@ IF userNumber > 10 THEN
 ELSE
     SET myString = "Hmm, " + GET userName + ". That's not a very big number."
 ENDIF
-Print GET myString
+PRINT GET myString
 !END!

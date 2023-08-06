@@ -22,7 +22,7 @@ Here's an example that uses variables and typescript invocation:
     INSTRUCTIONS:
         VAR myString
         SET myString = "Hello, World!"
-        Print the string GET myString to the console.
+        PRINT the string GET myString to the console.
 
         VAR arg1 = 5
         VAR arg2 = 10

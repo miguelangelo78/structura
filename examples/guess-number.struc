@@ -7,13 +7,13 @@ INSTRUCTIONS:
     VAR guess
     SET guess = 0
     WHILE guess != secretNumber:
-        Print "Guess a number between 1 and 100:"
+        PRINT "Guess a number between 1 and 100:"
         GET guess from user input
         IF guess < secretNumber:
-            Print "Too low! Try again."
+            PRINT "Too low! Try again."
         ELSE IF guess > secretNumber:
-            Print "Too high! Try again."
-    Print "Congratulations! You guessed the secret number."
+            PRINT "Too high! Try again."
+    PRINT "Congratulations! You guessed the secret number."
 
 OUTPUT: String
 
