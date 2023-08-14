@@ -63,6 +63,22 @@ npm start -- structuraProgram.struc [-i | --interactive]
 - `structuraProgram.struc` should be replaced with the path to your Structura program file.
 - The `-i` or `--interactive` flag is optional and enables interactive mode, allowing user input during program execution.
 
+You can also run Structura without a program file in REPL mode:
+
+```bash
+npm start -- -i
+```
+Or
+```bash
+npm start -- --interactive
+```
+
+You can then run Structura commands directly in the terminal. Try typing:
+```bash
+CALL helloWorld 40, 2
+```
+
+
 ## Examples
 
 In the `examples/` directory, you will find several example Structura programs that demonstrate different features and use cases of the language. You can explore these examples to get a better understanding of how to write Structura programs.

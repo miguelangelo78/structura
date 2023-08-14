@@ -56,6 +56,7 @@ export class AICore {
         }));
 
         if (initialContext) {
+            this.log(`Initial context is currently ${initialContext.length} characters long.`);
             this.setContext([{ role: 'system', content: initialContext }]);
         }
     }
@@ -67,7 +68,7 @@ export class AICore {
 
         this.updateTokenLength(messages);
 
-        let result = '';
+        let result: string | undefined;
 
         try {
             const response = await this.openai.createChatCompletion({
@@ -80,7 +81,7 @@ export class AICore {
                 function_call: 'auto'
             });
 
-            const { message } = response.data.choices[0];
+            const [{ message }] = response.data.choices;
 
             result = message?.content || '';
 
@@ -90,6 +91,7 @@ export class AICore {
 
             // Check if the AI has outputted an external function call or a regular response:
             if (message?.function_call?.name === 'execute_external_function') {
+                // Handle function calling down here:
                 const { functionName, functionOutput } = await this.executeFunction(message.function_call);
 
                 // Add the function name and output to the context so that it can be used in the next prompt.
@@ -100,6 +102,10 @@ export class AICore {
         }
         catch (error) {
             console.error(error);
+        }
+
+        if (!result) {
+            throw new Error('AI returned an empty response!');
         }
 
         return result;
@@ -154,6 +160,7 @@ export class AICore {
                     this.context.pop();
                 }
 
+                // Consume any remaining <<< commands:
                 while (prompt.startsWith('<<<')) {
                     prompt = prompt.slice(3).trim();
                 }
@@ -162,7 +169,7 @@ export class AICore {
             }
 
             // Remove the first 3 characters from prompt
-            prompt = prompt.slice(3).trim(); // Remove <<< from prompt
+            prompt = prompt.slice(3).trim(); // Remove one <<< from prompt
 
             this.log('Rewinding context by one step...');
             this.rewindContext(1);
@@ -174,6 +181,7 @@ export class AICore {
     private getMessages(prompt: string): ChatCompletionRequestMessage[] {
         const messages: ChatCompletionRequestMessage[] = !prompt ? [] : [{ role: 'system', content: prompt }];
 
+        // Prepend the context to the prompt:
         if (this.context) {
             messages.unshift(...this.context);
         }

@@ -55,7 +55,7 @@ The entire output should be returned if all the CALL commands have been evaluate
 On every new message, please replace the respective CALL command in the original program with the respective function output provided in the respective order of execution, which must be from top to bottom.
 Then, execute the program again after you finish replacing. Keep doing these steps until there are no more CALL commands in the program.
 Don't echo the program, only on the output of the PRINT commands or the result of RETURN command.
-Don't echo 'AI response:' at the start of the sentence.
+You must not echo 'AI response:' at the start of the sentence.
 
 Each keyword that is followed by ':' is considered a command.
 
