@@ -3,6 +3,28 @@ import * as libs from '../libs';
 
 const DEFAULT_MAX_TOKEN_LENGTH = 8192;
 
+const aiFunctions = [
+    {
+        name: 'execute_external_function',
+        description: 'Execute external function',
+        parameters: {
+            name: 'function_name',
+            type: 'object',
+            properties: {
+                functionName: {
+                    type: 'string',
+                },
+                args: {
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                    }
+                }
+            }
+        }
+    }
+];
+
 export class AICore {
     public tokenLength = 0;
 
@@ -41,7 +63,7 @@ export class AICore {
     async talk(prompt?: string, assimilate = true): Promise<string> {
         prompt = this.handleRewindCommand(prompt ?? '');
 
-        const messages = this.buildMessages(prompt);
+        const messages = this.getMessages(prompt);
 
         this.updateTokenLength(messages);
 
@@ -54,31 +76,9 @@ export class AICore {
                 temperature: +(process.env.AI_CORE_TEMPERATURE || 0.12),
                 frequency_penalty: +(process.env.AI_CORE_FREQUENCY_PENALTY || 0.1),
                 presence_penalty: +(process.env.AI_CORE_PRESENCE_PENALTY || 0.6),
-                functions: [
-                    {
-                        name: "execute_external_function",
-                        description: "Execute external function",
-                        parameters: {
-                            name: "function_name",
-                            type: "object",
-                            properties: {
-                                functionName: {
-                                    type: "string",
-                                },
-                                args: {
-                                    type: "array",
-                                    items: {
-                                        type: "string",
-                                    }
-                                }
-                            }
-                        }
-                    }
-                ],
-                function_call: "auto"
+                functions: aiFunctions,
+                function_call: 'auto'
             });
-
-            // Check if the AI has outputted an external function call or a regular response:
 
             const { message } = response.data.choices[0];
 
@@ -88,9 +88,11 @@ export class AICore {
                 this.assimilate(prompt, result);
             }
 
+            // Check if the AI has outputted an external function call or a regular response:
             if (message?.function_call?.name === 'execute_external_function') {
                 const { functionName, functionOutput } = await this.executeFunction(message.function_call);
 
+                // Add the function name and output to the context so that it can be used in the next prompt.
                 this.addContext({ role: 'function', name: functionName, content: functionOutput });
 
                 return this.talk(undefined, true);
@@ -169,7 +171,7 @@ export class AICore {
         return prompt;
     }
 
-    private buildMessages(prompt: string): ChatCompletionRequestMessage[] {
+    private getMessages(prompt: string): ChatCompletionRequestMessage[] {
         const messages: ChatCompletionRequestMessage[] = !prompt ? [] : [{ role: 'system', content: prompt }];
 
         if (this.context) {
@@ -183,7 +185,7 @@ export class AICore {
         this.tokenLength = messages.reduce((acc, message) => acc + (message.content?.length ?? 0), 0);
 
         if (this.tokenLength > DEFAULT_MAX_TOKEN_LENGTH) {
-            console.info(`>>>>> Reached maximum token length! Max: ${DEFAULT_MAX_TOKEN_LENGTH}, current: ${this.tokenLength} <<<<<`);
+            console.warn(`>>>>> Reached maximum token length! Max: ${DEFAULT_MAX_TOKEN_LENGTH}, current: ${this.tokenLength} <<<<<`);
         }
     }
 
