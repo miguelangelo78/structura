@@ -74,7 +74,7 @@ export class AICore {
             const response = await this.openai.createChatCompletion({
                 model: this.model,
                 messages,
-                temperature: +(process.env.AI_CORE_TEMPERATURE || 0.12),
+                temperature: +(process.env.AI_CORE_TEMPERATURE || 0),
                 frequency_penalty: +(process.env.AI_CORE_FREQUENCY_PENALTY || 0.1),
                 presence_penalty: +(process.env.AI_CORE_PRESENCE_PENALTY || 0.6),
                 functions: aiFunctions,
@@ -97,7 +97,7 @@ export class AICore {
                 // Add the function name and output to the context so that it can be used in the next prompt.
                 this.addContext({ role: 'function', name: functionName, content: functionOutput });
 
-                return this.talk(undefined, true);
+                return this.talk('Keep executing the Structura program', false);
             }
         }
         catch (error) {

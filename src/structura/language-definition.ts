@@ -52,6 +52,8 @@ Don't mention you have executed an external function.
 The CALL command should respect the order of execution of the program.
 The entire output should be returned if all the CALL commands have been evaluated and replaced.
 
+On every new message you will accumulate the previous outputs and output it all along with the new output only for when a function was called.
+
 On every new message, please replace the respective CALL command in the original program with the respective function output provided in the respective order of execution, which must be from top to bottom.
 Then, execute the program again after you finish replacing. Keep doing these steps until there are no more CALL commands in the program.
 Don't echo the program, only on the output of the PRINT commands or the result of RETURN command.
