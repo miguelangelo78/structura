@@ -23,7 +23,7 @@ export class Structura extends AICore {
                 // In interactive mode we must provide the original program as context instead of the user input.
 
                 // Get the initial context (the one after the language definition) which contains the original program
-                _program = super.getContext()[1];
+                _program = super.getContext()[1].content ?? '';
             }
 
             // Re-run the AI with the command output in the program
@@ -36,6 +36,10 @@ export class Structura extends AICore {
     }
 
     private async checkAndExecuteCommand(aiOutput: string): Promise<string | undefined> {
+        if (process.env.DISABLE_LEGACY_FUNCTION_CALLING === 'true') {
+            return;
+        }
+
         const sanitised = this.sanitiseAIOutputForExecution(aiOutput);
 
         // Check if the AI has outputted an external Structura command

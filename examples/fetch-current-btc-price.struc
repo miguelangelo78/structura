@@ -4,7 +4,7 @@ CONTEXT:
 INSTRUCTIONS:
     VAR apiUrl = "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"
 
-    VAR response = CALL $.fetch WITH apiUrl
+    VAR response = CALL fetch apiUrl
     VAR bitcoinPriceData = GET response.bpi.USD.rate_float
 
     PRINT "The current price of Bitcoin is: $" + bitcoinPriceData

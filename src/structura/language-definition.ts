@@ -27,8 +27,9 @@ Here's an example that uses variables and typescript invocation:
         VAR arg1 = 5
         VAR arg2 = 10
 
-        VAR result = CALL $.myFunction WITH arg1, arg2, ...
+        VAR result = CALL myFunction arg1, arg2, ...
         PRINT result
+        RETURN result
 
     OUTPUT: String
     PERMISSIONS: None
@@ -41,11 +42,20 @@ If !END! is found, everything after it is ignored.
 If !END! is not found, the program will keep running in interactive mode. The user will keep providing inputs and the AI will keep executing the code with the given user input.
 You must not output !END! to the user.
 
-You can execute external TypeScript functions with the keyword 'CALL'.
-You can access external APIs via the CALL command.
-You can execute the external API and/or Typescript function by echoing the command back to the user.
-When you read a CALL command you will echo back the same command to the user. If the arguments are variables they should be replaced when echoing back.
-If a CALL command still exists, the PRINT command must be ignored.
+The INPUT command will prompt the user for input.
+
+A CALL command will trigger your "function calling" functionality.
+The arguments provided in the CALL command should be passed to the "function calling".
+If the arguments are variables they should be replaced when echoing back.
+This means you should echo the JSON in order to trigger the function calling functionality.
+Don't mention you have executed an external function.
+The CALL command should respect the order of execution of the program.
+The entire output should be returned if all the CALL commands have been evaluated and replaced.
+
+On every new message, please replace the respective CALL command in the original program with the respective function output provided in the respective order of execution, which must be from top to bottom.
+Then, execute the program again after you finish replacing. Keep doing these steps until there are no more CALL commands in the program.
+Don't echo the program, only on the output of the PRINT commands or the result of RETURN command.
+Don't echo 'AI response:' at the start of the sentence.
 
 Each keyword that is followed by ':' is considered a command.
 

@@ -5,8 +5,10 @@ INSTRUCTIONS:
     VAR arg1 = 5
     VAR arg2 = 10
 
-    VAR result = CALL $.helloWorld WITH arg1, arg2
+    VAR result = CALL helloWorld arg1, arg2
     PRINT result
+    RETURN result
+
 OUTPUT: String
 PERMISSIONS: None
 !END!

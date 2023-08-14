@@ -1,27 +1,30 @@
-import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai';
+import { ChatCompletionRequestMessage, ChatCompletionRequestMessageFunctionCall, Configuration, OpenAIApi } from 'openai';
+import * as libs from '../libs';
 
-const MAX_TOKEN_LENGTH = 8192;
+const DEFAULT_MAX_TOKEN_LENGTH = 8192;
 
 export class AICore {
     public tokenLength = 0;
 
     private openai: OpenAIApi;
-    private context: string[] = [];
-    private model = 'gpt-4-0314';
+    private context: ChatCompletionRequestMessage[] = [];
+    private model = process.env.AI_CORE_MODEL || 'gpt-4';
 
-    private setContext(context: string[]) {
+    private setContext(context: ChatCompletionRequestMessage[]) {
         this.context = context;
     }
 
-    private addContext(context: string) {
+    private addContext(context: ChatCompletionRequestMessage) {
         this.context.push(context);
     }
 
     private rewindContext(steps = 1) {
-        this.setContext(this.context.slice(0, -steps));
+        // Each step consists of two elements: the user prompt and the AI response.
+        // This means that we need to multiply the steps by 2 to get the correct number of elements to remove.
+        this.setContext(this.context.slice(0, -(steps * 2)));
     }
 
-    public getContext(): string[] {
+    public getContext(): ChatCompletionRequestMessage[] {
         return this.context;
     }
 
@@ -31,33 +34,107 @@ export class AICore {
         }));
 
         if (initialContext) {
-            this.setContext([initialContext]);
+            this.setContext([{ role: 'system', content: initialContext }]);
         }
     }
 
-    async talk(prompt: string, assimilate = true): Promise<string> {
-        prompt = this.handleRewindCommand(prompt);
+    async talk(prompt?: string, assimilate = true): Promise<string> {
+        prompt = this.handleRewindCommand(prompt ?? '');
 
         const messages = this.buildMessages(prompt);
 
         this.updateTokenLength(messages);
 
-        const response = await this.openai.createChatCompletion({
-            model: this.model,
-            messages,
-            temperature: 0.12,
-            frequency_penalty: 0.1,
-            presence_penalty: 0.6,
-        });
+        let result = '';
 
-        const result = response.data.choices[0].message?.content || '';
+        try {
+            const response = await this.openai.createChatCompletion({
+                model: this.model,
+                messages,
+                temperature: +(process.env.AI_CORE_TEMPERATURE || 0.12),
+                frequency_penalty: +(process.env.AI_CORE_FREQUENCY_PENALTY || 0.1),
+                presence_penalty: +(process.env.AI_CORE_PRESENCE_PENALTY || 0.6),
+                functions: [
+                    {
+                        name: "execute_external_function",
+                        description: "Execute external function",
+                        parameters: {
+                            name: "function_name",
+                            type: "object",
+                            properties: {
+                                functionName: {
+                                    type: "string",
+                                },
+                                args: {
+                                    type: "array",
+                                    items: {
+                                        type: "string",
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                function_call: "auto"
+            });
 
-        if (assimilate) {
-            this.addContext(`Previous user prompt: ${prompt}`);
-            this.addContext(result);
+            // Check if the AI has outputted an external function call or a regular response:
+
+            const { message } = response.data.choices[0];
+
+            result = message?.content || '';
+
+            if (assimilate) {
+                this.assimilate(prompt, result);
+            }
+
+            if (message?.function_call?.name === 'execute_external_function') {
+                const { functionName, functionOutput } = await this.executeFunction(message.function_call);
+
+                this.addContext({ role: 'function', name: functionName, content: functionOutput });
+
+                return this.talk(undefined, true);
+            }
+        }
+        catch (error) {
+            console.error(error);
         }
 
         return result;
+    }
+
+    private assimilate(prompt: string, result: string): string {
+        if (prompt.trim()) {
+            this.addContext({ role: 'system', content: `Previous user prompt: ${prompt}` });
+        }
+
+        if (result.trim()) {
+            this.addContext({ role: 'system', content: `AI response: ${result}` });
+        }
+
+        return result;
+    }
+
+    private async executeFunction(function_call: ChatCompletionRequestMessageFunctionCall): Promise<{ functionName: string, functionOutput: string }> {
+        const { functionName, args } = JSON.parse(function_call.arguments ?? '{}');
+
+        if (!functionName || !args) {
+            throw new Error('Function name is required!');
+        }
+
+        const lib = libs as any;
+
+        if (lib[functionName] === undefined) {
+            throw new Error(`Function ${functionName} (args: ${args}) is not defined!`);
+        }
+
+        this.log(`>>>>> Executing function ${functionName}(${args.join(', ')}... <<<<<`);
+
+        const functionOutput = await lib[functionName as any](...args);
+
+        this.log(`>>>>> Function ${functionName}(${args.join(', ')}) returned: ${functionOutput} <<<<<`);
+
+        return { functionName, functionOutput };
     }
 
     // Rewind command overrules everything else that precedes it.
@@ -86,27 +163,27 @@ export class AICore {
             prompt = prompt.slice(3).trim(); // Remove <<< from prompt
 
             this.log('Rewinding context by one step...');
-            this.rewindContext(2); // Each step consists of two elements: the user prompt and the AI response.
+            this.rewindContext(1);
         }
 
         return prompt;
     }
 
     private buildMessages(prompt: string): ChatCompletionRequestMessage[] {
-        const messages: ChatCompletionRequestMessage[] = [{ role: 'system', content: prompt }];
+        const messages: ChatCompletionRequestMessage[] = !prompt ? [] : [{ role: 'system', content: prompt }];
 
         if (this.context) {
-            messages.unshift(...this.context.map((content) => ({ role: 'system', content } as ChatCompletionRequestMessage)));
+            messages.unshift(...this.context);
         }
 
         return messages;
     }
 
     private updateTokenLength(messages: ChatCompletionRequestMessage[]) {
-        this.tokenLength = messages.reduce((acc, message) => acc + message.content.length, 0);
+        this.tokenLength = messages.reduce((acc, message) => acc + (message.content?.length ?? 0), 0);
 
-        if (this.tokenLength > MAX_TOKEN_LENGTH) {
-            console.info(`>>>>> Reached maximum token length! Max: ${MAX_TOKEN_LENGTH}, current: ${this.tokenLength} <<<<<`);
+        if (this.tokenLength > DEFAULT_MAX_TOKEN_LENGTH) {
+            console.info(`>>>>> Reached maximum token length! Max: ${DEFAULT_MAX_TOKEN_LENGTH}, current: ${this.tokenLength} <<<<<`);
         }
     }
 
