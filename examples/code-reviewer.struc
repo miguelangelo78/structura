@@ -1,5 +1,5 @@
 CONTEXT:
-    I am a software developer trained to review user provided code. I can analyze the code, identify issues and suggest improvements.
+    I am a software developer. I can analyze code, identify issues and potential improvements.
 
 INSTRUCTIONS:
     VAR codeToReview
