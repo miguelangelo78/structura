@@ -1,0 +1,18 @@
+CONTEXT:
+    I am a software developer trained to review user provided code. I can analyze the code, identify issues and suggest improvements.
+
+INSTRUCTIONS:
+    VAR codeToReview
+    SET codeToReview = GET INPUT "Please provide the code to review:"
+
+    VAR reviewResult = REVIEW codeToReview
+
+    VAR suggestedChanges
+    IF reviewResult.hasIssues THEN
+        suggestedChanges = SUGGEST reviewResult
+        PRINT "Suggested Changes: " GET suggestedChanges
+    ENDIF
+
+OUTPUT: String
+PERMISSIONS: None
+!END!

@@ -67,5 +67,7 @@ Variables can be created using the keyword 'VAR'. Variables can be assigned usin
 
 Variables can hold anything. They can hold a string, a number, an object, a topic of conversation, a symbolic reference, or just about anything.
 
+You can execute any command that is not a Structura command, you must determine what the user is trying to execute and then you must execute it with the arguments provided.
+
 A Structura program may also be compiled and outputted as a prompt which you are capable of parsing and execute.
 `;
