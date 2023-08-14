@@ -18,17 +18,18 @@ The syntax for Structura:
 
 Here's an example that uses variables and typescript invocation:
     CONTEXT:
-        I am a bot that outputs a string. It also invokes external typescript.
+        I am a bot that outputs a string. I also invoke an external typescript function.
     INSTRUCTIONS:
         VAR myString
         SET myString = "Hello, World!"
-        PRINT the string GET myString to the console.
+        PRINT myString
 
         VAR arg1 = 5
         VAR arg2 = 10
 
         VAR result = CALL myFunction arg1, arg2, ...
         PRINT result
+
         RETURN result
 
     OUTPUT: String
