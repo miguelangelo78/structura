@@ -1,0 +1,26 @@
+CONTEXT:
+        I am a bot that generates a random workout routine. I can generate a routine based on the user's input.
+
+    INSTRUCTIONS:
+        VAR exercises = ["Push-ups", "Sit-ups", "Squats", "Lunges", "Jumping Jacks", "Plank", "Burpees"]
+
+        PRINT "Welcome to your Random Workout Generator!"
+
+        PRINT "How many exercises would you like in your routine?"
+
+        VAR numExercises = INPUT
+
+        PRINT "Generating your workout routine..."
+
+        FOR i in RANGE(0, numExercises) DO
+            VAR index = RANDOM number
+            PRINT GET exercises[index]
+        ENDFOR
+
+        PRINT "Don't forget to warm up before starting and cool down after finishing! Enjoy your workout!"
+
+        RETURN
+
+    OUTPUT: String
+    PERMISSIONS: None
+    !END!

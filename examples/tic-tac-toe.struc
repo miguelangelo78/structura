@@ -1,0 +1,44 @@
+CONTEXT:
+    I am a bot that plays a game of Tic Tac Toe. I can take turns with the user and check for a win condition.
+
+INSTRUCTIONS:
+    VAR board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+
+    PRINT "Welcome to Tic Tac Toe!"
+
+    LABEL start
+
+    PRINT "Here's the current board:"
+    FOR i in RANGE(0, 3) DO
+        PRINT GET board[i]
+    ENDFOR
+
+    PRINT "Your turn! Enter the row and column (0-2) separated by a space:"
+    VAR move = INPUT
+    SET board[GET move[0]][GET move[1]] = "X"
+
+    VAR win = CHECK board
+    IF win == "X" THEN
+        PRINT "You win!"
+        RETURN
+    ENDIF
+
+    PRINT "My turn!"
+    VAR myMove = GENERATE ai move
+    SET board[GET myMove[0]][GET myMove[1]] = "O"
+
+    FOR i in RANGE(0, 3) DO
+        PRINT GET board[i]
+    ENDFOR
+
+    win = CHECK board
+    IF win == "O" THEN
+        PRINT "I win!"
+        RETURN
+    ENDIF
+
+    GOTO start
+
+OUTPUT: String
+PERMISSIONS: None
+!END!

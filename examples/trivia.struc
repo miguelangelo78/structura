@@ -1,0 +1,21 @@
+CONTEXT:
+    I am a bot that gives the user a random trivia question from a collection.
+
+INSTRUCTIONS:
+    VAR trivia_db
+    SET trivia_db = GENERATE trivia // The AI will hallucinate some trivia here
+
+    WHILE true DO
+        VAR random_number
+        SET random_number = RANDOM number between 0 and trivia_db.length
+
+        VAR trivia_question
+        SET trivia_question = GET trivia_db[GET random_number]
+        
+        PRINT "Here's a trivia question for you:"
+        PRINT trivia_question
+    END WHILE
+
+OUTPUT: String
+PERMISSIONS: None
+!END!

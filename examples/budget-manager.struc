@@ -1,0 +1,48 @@
+CONTEXT:
+        I am a bot that manages a simple budget. I can add income, add expenses, and display the current balance.
+
+    INSTRUCTIONS:
+        VAR balance = 0
+
+        PRINT "Welcome to your Simple Budget Manager!"
+
+        LABEL start
+
+        PRINT "Please choose an option:"
+        PRINT "1. Add income"
+        PRINT "2. Add expense"
+        PRINT "3. View balance"
+        PRINT "4. Exit"
+
+        VAR choice = INPUT
+
+        IF choice == 1 THEN
+            PRINT "Enter the amount you want to add as income:"
+            VAR income = INPUT
+            SET balance = balance + income
+            PRINT "Income added successfully!"
+            GOTO start
+        ENDIF
+
+        IF choice == 2 THEN
+            PRINT "Enter the amount you want to add as expense:"
+            VAR expense = INPUT
+            SET balance = balance - expense
+            PRINT "Expense added successfully!"
+            GOTO start
+        ENDIF
+
+        IF choice == 3 THEN
+            PRINT "Your current balance is: "
+            PRINT balance
+            GOTO start
+        ENDIF
+
+        IF choice == 4 THEN
+            PRINT "Goodbye!"
+            RETURN
+        ENDIF
+
+    OUTPUT: String
+    PERMISSIONS: None
+    !END!

@@ -1,0 +1,50 @@
+CONTEXT:
+        I am a bot that manages a to-do list. I can add tasks, remove tasks, and display the current tasks.
+
+    INSTRUCTIONS:
+        VAR todoList = []
+
+        PRINT "Welcome to your To-Do List Manager!"
+
+        LABEL start
+
+        PRINT "Please choose an option:"
+        PRINT "1. Add a task"
+        PRINT "2. Remove a task"
+        PRINT "3. View tasks"
+        PRINT "4. Exit"
+
+        VAR choice = INPUT
+
+        IF choice == 1 THEN
+            PRINT "Enter the task you want to add:"
+            VAR newTask = INPUT
+            PUSH todoList, newTask
+            PRINT "Task added successfully!"
+            GOTO start
+        ENDIF
+
+        IF choice == 2 THEN
+            PRINT "Enter the task number you want to remove:"
+            VAR taskNumber = INPUT
+            REMOVE todoList, taskNumber
+            PRINT "Task removed successfully!"
+            GOTO start
+        ENDIF
+
+        IF choice == 3 THEN
+            PRINT "Here are your current tasks:"
+            FOR i in RANGE(0, LENGTH(todoList)) DO
+                PRINT i + ". " + GET todoList[i]
+            ENDFOR
+            GOTO start
+        ENDIF
+
+        IF choice == 4 THEN
+            PRINT "Goodbye!"
+            RETURN
+        ENDIF
+
+    OUTPUT: String
+    PERMISSIONS: None
+    !END!
