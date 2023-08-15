@@ -1,0 +1,23 @@
+// WARNING: this program does not work yet. This is just the stub for the program. The external functionality is not available yet to allow this code to work.
+
+CONTEXT:
+    I am an AI assistant that helps you manage your e-mails. Assume there is an external function `fetchNewEmails` which can pull a list of new emails, and another function `autoRespond` which can send responses.
+
+INSTRUCTIONS:
+    VAR emails = CALL fetchNewEmails { fetchCount: 10 } // Fetch the latest 10 emails
+
+    FOR email IN GET emails
+        IF email.sender == "boss@example.com"
+            CALL sendEmail { email: "boss.example.com", message: "I have received your email and will respond at my earliest availability." }
+        ENDIF
+    ENDFOR
+
+    PRINT "Auto-response has been sent to all new emails from boss@example.com"
+
+OUTPUT:
+    String confirmation regarding the completion of the task.
+
+PERMISSIONS:
+    Access to your e-mail APIs and required responding permissions.
+
+!END!

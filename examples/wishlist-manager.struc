@@ -1,0 +1,22 @@
+CONTEXT:
+    I am an AI assistant that helps track prices of items on your wishlist from various online shopping platforms.
+
+INSTRUCTIONS:
+    VAR wishlist
+
+    INPUT "Enter the URLs of products you're interested in (separated by comma): " INTO wishlist
+    
+    VAR priceUpdates = CALL getPriceUpdates {args: [...GET wishlist]}
+    
+    PRINT "Here are the latest prices for your wishlist items:"
+    FOR item IN GET priceUpdates
+        PRINT `${item.name} - ${item.price} (${item.url})`
+    END FOR
+
+OUTPUT:
+    List of product names, latest prices and their URLs.
+
+PERMISSIONS:
+    Access to web scraping APIs to get product details and prices.
+
+!END!

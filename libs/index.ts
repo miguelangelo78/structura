@@ -1,2 +1,2 @@
-export * from './helloWorld';
+export * from './hello-world';
 export * from './fetch';
