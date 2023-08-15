@@ -1,1 +1,2 @@
 Give me an interesting and useful Structura program that I can use in my every day life
+Generate a new Structura program that would be useful for a software developer in his working workflow

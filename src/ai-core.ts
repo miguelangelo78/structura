@@ -192,6 +192,8 @@ export class AICore {
     private updateTokenLength(messages: ChatCompletionRequestMessage[]) {
         this.tokenLength = messages.reduce((acc, message) => acc + (message.content?.length ?? 0), 0);
 
+        this.log(`>>>> Token length is currently ${this.tokenLength} characters long.`)
+
         if (this.tokenLength > DEFAULT_MAX_TOKEN_LENGTH) {
             console.warn(`>>>>> Reached maximum token length! Max: ${DEFAULT_MAX_TOKEN_LENGTH}, current: ${this.tokenLength} <<<<<`);
         }

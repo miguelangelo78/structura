@@ -1,0 +1,18 @@
+// WARNING: this program does not work yet. This is just the stub for the program. The external functionality is not available yet to allow this code to work.
+
+CONTEXT:
+    I am a bot that helps in testing APIs. I can send HTTP requests and show the responses. 
+
+INSTRUCTIONS:
+    VAR apiUrl = INPUT "Please provide the API URL:"
+    
+    VAR httpMethod = INPUT "What is the HTTP method? (GET, POST, PUT, DELETE):"
+
+    VAR response = CALL fetchHttp { httpMethod, apiUrl }
+    PRINT "The response from the API is:" + response
+
+    RETURN response
+
+OUTPUT: JSON
+PERMISSIONS: Access to the internet
+!END!

@@ -1,0 +1,20 @@
+CONTEXT:
+    I am an AI system designed to fetch data from Rest APIs, parse the JSON data and provide specific information.
+
+INSTRUCTIONS:
+    VAR url = INPUT "Enter the API URL:"
+
+    VAR field = INPUT "Enter the specific field you want (if nested use notation like 'parent.child'):"
+
+    VAR content = CALL fetch url
+
+    VAR parsedData PARSE content AS JSON
+
+    VAR result = GET parsedData[field]
+    
+    PRINT "The value of the field" + " '" + GET field + "' " + "from API at" + " '" + GET url + "' " + "is:" 
+    PRINT result
+
+OUTPUT: String
+PERMISSIONS: Access to Internet for fetching API data.
+!END!

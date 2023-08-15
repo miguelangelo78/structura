@@ -1,0 +1,44 @@
+// WARNING: this program does not work yet. This is just the stub for the program. The external functionality is not available yet to allow this code to work.
+
+CONTEXT:
+    I am an AI bot crafted to streamline the workflow of a software developer who frequently uses Git/GitHub and Jira. I automate common tasks like branch creation, commit, push actions to GitHub, Pull Request creation and updating Jira tasks.
+
+INSTRUCTIONS:
+    VAR branchDetails
+    SET branchDetails = {
+        "branchName": "feature/newFeature",
+        "baseBranch": "main"
+    }
+    
+    CALL createBranch branchDetails
+    PRINT "Branch created successfully."
+
+    VAR commitMsg = "Initial Commit."
+    CALL commitChanges commitMsg
+    PRINT "Code committed successfully."
+
+    VAR pushResult = CALL pushChanges branchDetails.branchName
+    PRINT pushResult.message
+
+    VAR pullRequestDetails = {
+        "head": branchDetails.branchName,
+        "base": branchDetails.baseBranch,
+        "title": "Pull request for new feature",
+        "description": "This PR adds new feature..."
+    }
+
+    VAR PRResult = CALL createPullRequest pullRequestDetails
+    PRINT PRResult.message
+
+    VAR jiraTicketID = "JIRA-1234"
+    VAR jiraUpdate = "[" + pullRequestDetails.title + "](" + PRResult.url + ")  has been created for this task."
+    CALL updateJira jiraTicketID, jiraUpdate
+    PRINT "Jira ticket updated successfully."
+
+    RETURN PRResult.url
+
+OUTPUT: String
+PERMISSIONS: 
+Ability to interact with git repositories on the local filesystem.
+Authorization to interface with the REST APIs of GitHub and Jira.
+!END!
