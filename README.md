@@ -3,10 +3,10 @@ A new meta programming language for AI systems
 
 ## What is Structura
 
-Structura is a powerful and flexible programming language designed for creating structured prompts that can be interpreted by AI systems. With Structura, you can easily create programs that interact with AI systems, perform complex tasks, and manipulate structured data.
+Structura is an experimental meta programming language designed for creating structured prompts that can be interpreted by AI systems. With Structura, you can easily create programs that interact with AI systems, perform complex tasks, and manipulate structured data.
 
-## Table of Contents
-- [Introduction](#introduction)
+## Contents
+- [Important note](#important-note)
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
@@ -14,9 +14,9 @@ Structura is a powerful and flexible programming language designed for creating 
 - [Contributing](#contributing)
 - [License](#license)
 
-## Introduction
 
-Structura is a programming language specifically designed for creating structured prompts that can be interpreted by AI systems. It enables developers to build powerful and flexible programs that interact with AI systems in a structured manner. The language provides a clear and intuitive syntax for expressing commands, instructions, variables, and outputs, making it easy to write structured prompts.
+## Important note
+Please bear in mind that Structura is just an experimental tool. It relies on existing AI models to produce the output. It is not intended to be used for any serious projects, and it is not recommended to use it for anything other than experimentation and learning purposes.
 
 ## Features
 
@@ -86,6 +86,19 @@ In the `examples/` directory, you will find several example Structura programs t
 You can run them like this:
 ```bash
 npm start -- examples/helloworld.struc
+```
+
+Here's a hello world in Structura:
+```bash
+CONTEXT:
+    We are executing a "hello world" program.
+
+INSTRUCTIONS:
+    PRINT "I am alive!"
+
+OUTPUT: Void
+PERMISSIONS: None
+OUTPUT: String
 ```
 
 ## Contributing

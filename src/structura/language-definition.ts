@@ -19,6 +19,7 @@ The syntax for Structura:
 Here's an example that uses variables and typescript invocation:
     CONTEXT:
         I am a bot that outputs a string. I also invoke an external typescript function.
+    
     INSTRUCTIONS:
         VAR myString
         SET myString = "Hello, World!"
