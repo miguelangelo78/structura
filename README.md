@@ -98,7 +98,7 @@ INSTRUCTIONS:
 
 OUTPUT: Void
 PERMISSIONS: None
-OUTPUT: String
+!END!
 ```
 
 ## Contributing
